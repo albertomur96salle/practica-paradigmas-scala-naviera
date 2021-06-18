@@ -17,7 +17,7 @@ class Ruta(val _puertos:List[Puerto], var _puertoActual:Puerto, var _puertoSigui
    * Actualiza tanto el puerto actual como el siguiente
    */
   def realizarAtraco(): Unit = {
-    val atraco = new Atraco(_puertoSiguiente, Calendar.getInstance().getTime)
+    val atraco = Atraco(_puertoSiguiente, Calendar.getInstance().getTime)
     _atracos = _atracos :+ atraco
     _puertoActual = _puertoSiguiente
     val indicePuertoActual = _puertos.indexOf(_puertoActual)

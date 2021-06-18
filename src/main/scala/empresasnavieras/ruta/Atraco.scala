@@ -8,11 +8,5 @@ import java.util.Date
  * @param puerto
  * @param fecha
  */
-//class Atraco(puerto:Puerto, fecha:Date) {
-//  private val _puerto: Puerto = puerto
-//  private val _fecha: Date = fecha
-//
-//  def puerto: Puerto = _puerto
-//  def fecha: Date = _fecha
-//}
+
 case class Atraco(puerto:Puerto, fecha:Date) {}

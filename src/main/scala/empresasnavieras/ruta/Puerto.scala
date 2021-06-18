@@ -6,6 +6,4 @@ package empresasnavieras.ruta
  * @param nombre
  * @param ciudad
  */
-case class Puerto(_nombre:String, _ciudad:String) {
-
-}
+case class Puerto(nombre:String, ciudad:String) {}

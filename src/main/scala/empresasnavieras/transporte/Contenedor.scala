@@ -17,8 +17,8 @@ class Contenedor(val _id:Int) {
    */
   def guardarProducto(producto :(String, Int)): Map[String, Int] = {
     _productos.contains(producto._1) match {
-      case true => _productos.+(producto._1 -> producto._2)
-      case false => _productos.+(producto._1 -> (_productos.apply(producto._1) + producto._2))
+      case false => _productos.+(producto._1 -> producto._2)
+      case true => _productos.+(producto._1 -> (_productos.apply(producto._1) + producto._2))
     }
   }
 
