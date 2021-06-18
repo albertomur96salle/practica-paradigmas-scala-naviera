@@ -6,10 +6,6 @@ package empresasnavieras.ruta
  * @param nombre
  * @param ciudad
  */
-class Puerto(nombre:String, ciudad:String) {
-  private val _nombre: String = nombre
-  private val _ciudad: String = ciudad
+case class Puerto(_nombre:String, _ciudad:String) {
 
-  def nombre: String = _nombre
-  def ciudad: String = _ciudad
 }

@@ -9,16 +9,8 @@ import java.util.Calendar
  * @param puertoActual
  * @param puertoSiguiente
  */
-class Ruta(puertos:List[Puerto], puertoActual:Puerto, puertoSiguiente:Puerto) {
-  private val _puertos: List[Puerto] = puertos
+class Ruta(val _puertos:List[Puerto], var _puertoActual:Puerto, var _puertoSiguiente:Puerto) {
   private var _atracos: List[Atraco] = List.empty[Atraco]
-  private var _puertoActual: Puerto = puertoActual
-  private var _puertoSiguiente: Puerto = puertoSiguiente
-
-  def puertos: List[Puerto] = _puertos
-  def atracos: List[Atraco] = _atracos
-  def puertoActual: Puerto = _puertoActual
-  def puertoSiguiente: Puerto = _puertoSiguiente
 
   /**
    * Simula el trayecto entre el puerto actual y el puerto siguiente en la ruta.
@@ -30,5 +22,6 @@ class Ruta(puertos:List[Puerto], puertoActual:Puerto, puertoSiguiente:Puerto) {
     _puertoActual = _puertoSiguiente
     val indicePuertoActual = _puertos.indexOf(_puertoActual)
     _puertoSiguiente = _puertos(indicePuertoActual+1)
+    println(_puertoActual)
   }
 }
