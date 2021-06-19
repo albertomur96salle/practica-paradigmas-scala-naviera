@@ -1,28 +1,86 @@
+import akka.actor.typed.ActorSystem
+import akka.http.scaladsl.Http
+import akka.actor.typed.scaladsl.Behaviors
+import akka.http.scaladsl.model.HttpRequest
 import empresasnavieras.empresa.Empresa
 import empresasnavieras.ruta.{Puerto, Ruta}
 import empresasnavieras.transporte.{Buque, Contenedor}
+import akka.http.scaladsl.unmarshalling.Unmarshal
+import play.api.libs.json._
+
+import scala.concurrent.{ExecutionContextExecutor, Future}
+import scala.language.postfixOps
+import scala.util.{Failure, Random, Success}
 
 object Main {
+  implicit val system: ActorSystem[Nothing] = ActorSystem(Behaviors.empty, "SingleRequest")
+  implicit val executionContext: ExecutionContextExecutor = system.executionContext
+  var ruta: Ruta = null
+  var contenedor: List[Contenedor] = List.empty[Contenedor]
 
   def main(args: Array[String]): Unit = {
-    val empresa = Empresa("Transportes Paco", 645892973)
-
-    val puerto1 = Puerto("P1", "Barcelona")
-    val puerto2 = Puerto("P2", "Valencia")
-    val puerto3 = Puerto("P3", "Cadiz")
-
-    val puertosRuta: List[Puerto] = List(puerto1, puerto2, puerto3)
-
-    val ruta = new Ruta(puertosRuta, puerto1, puerto2)
-
-    val buque = Buque(empresa, ruta)
-
-    val contenedor1 = new Contenedor(1)
-    contenedor1.guardarProducto("Salchichas", 100)
-
-    buque.guardarContenedor(contenedor1)
-
-    buque.navegar()
+    empezarPlan()
   }
 
+  def empezarPlan(): Unit = {
+    Http().singleRequest(HttpRequest(uri = "https://jsonplaceholder.typicode.com/users"))
+      .transformWith {
+        case Success(res) =>
+          val data = Unmarshal(res).to[String]
+
+          data.map { d =>
+            val puertos = crearPuertos(Json.parse(d))
+            ruta = crearRuta(puertos)
+            contenedor = crearContenedores()
+            crearEmpresa()
+          }
+        case Failure(e) =>
+          println(e)
+          Future.failed(e)
+      }
+  }
+
+  def crearPuertos(data: JsValue): List[Puerto] = {
+    val puerto1 = Puerto("P1", data(0).apply("address").apply("city").toString())
+    val puerto2 = Puerto("P2", data(1).apply("address").apply("city").toString())
+    val puerto3 = Puerto("P3", data(2).apply("address").apply("city").toString())
+    List(puerto1, puerto2, puerto3)
+  }
+
+  def crearRuta(puertos: List[Puerto]): Ruta = Ruta(puertos, puertos.head, puertos(1))
+
+  def crearEmpresa() = {
+    Http().singleRequest(HttpRequest(uri = "https://jsonplaceholder.typicode.com/todos"))
+      .transformWith {
+        case Success(res) =>
+          val data = Unmarshal(res).to[String]
+
+          data.map { d =>
+            val numberString = faker.PhoneNumber.phone_number.replaceAll("[^0-9]", "")
+            val number = numberString.substring(0, Math.min(numberString.length(), 9)).toInt
+            val empresa = Empresa(Json.parse(d)(0).apply("title").toString(), number)
+            val barco = crearBarco(contenedor, empresa, ruta)
+            barco.navegar()
+          }
+        case Failure(e) =>
+          println(e)
+          Future.failed(e)
+      }
+  }
+
+  def crearContenedores(): List[Contenedor] = {
+    val contenedor = Contenedor()
+    val nombreProducto = faker.Lorem.words(2).mkString("")
+    val cantidadProducto = Random.between(1, 20)
+
+    contenedor.guardarProducto((nombreProducto, cantidadProducto))
+    List(contenedor)
+  }
+
+  def crearBarco(contenedores: List[Contenedor], empresa: Empresa, ruta: Ruta): Buque = {
+    val barco: Buque = Buque(empresa, ruta)
+
+    contenedores.map(contenedor => barco.guardarContenedor(contenedor))
+    barco
+  }
 }

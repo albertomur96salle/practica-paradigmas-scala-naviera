@@ -38,6 +38,18 @@ class Buque {
    * Hace que el barco avance 1 puerto en su ruta actual
    */
   def navegar() = ruta.realizarAtraco()
+
+  /**
+   * Hace un recuento de la cantidad de productos que hay en todos los contenedores
+   *
+   * @return
+   */
+  def contar() = {
+    val sumar = (x:Int, y:Int) => x + y
+
+    val recuentoContenedores = _contenedores.map(contenedor => contenedor._2.hacerRecuento())
+    recuentoContenedores.reduce((acc,x) => sumar(acc,x))
+  }
 }
 
 /**

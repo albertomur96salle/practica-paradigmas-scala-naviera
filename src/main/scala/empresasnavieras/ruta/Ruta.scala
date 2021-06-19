@@ -25,3 +25,9 @@ class Ruta(val _puertos:List[Puerto], var _puertoActual:Puerto, var _puertoSigui
     println(_puertoActual)
   }
 }
+
+object Ruta {
+  def apply(_puertos:List[Puerto], _puertoActual:Puerto, _puertoSiguiente:Puerto): Ruta = {
+    new Ruta(_puertos, _puertoActual, _puertoSiguiente)
+  }
+}

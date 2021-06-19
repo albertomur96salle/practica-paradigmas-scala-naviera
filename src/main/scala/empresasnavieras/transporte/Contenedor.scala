@@ -1,5 +1,7 @@
 package empresasnavieras.transporte
 
+import scala.util.Random
+
 /**
  * Representa a un contenedor con un identificador numérico específico
  *
@@ -15,10 +17,10 @@ class Contenedor(val _id:Int) {
    * @param producto
    * @return
    */
-  def guardarProducto(producto :(String, Int)): Map[String, Int] = {
+  def guardarProducto(producto :(String, Int)): Unit = {
     _productos.contains(producto._1) match {
-      case false => _productos.+(producto._1 -> producto._2)
-      case true => _productos.+(producto._1 -> (_productos.apply(producto._1) + producto._2))
+      case false => _productos = _productos.+(producto._1 -> producto._2)
+      case true => _productos = _productos.+(producto._1 -> (_productos.apply(producto._1) + producto._2))
     }
   }
 
@@ -47,5 +49,22 @@ class Contenedor(val _id:Int) {
    */
   def comprobarCantidad(producto: String): Option[Int] = {
     Option(_productos.apply(producto))
+  }
+
+  /**
+   * Devuelve la cantidad total de productos que hay en el contenedor
+   *
+   * @return
+   */
+  def hacerRecuento(): Int = {
+    var recuento = 0
+    for ((_,cantidad) <- _productos) recuento+=cantidad
+    recuento
+  }
+}
+
+object Contenedor {
+  def apply(): Contenedor = {
+    new Contenedor(Random.between(1, 999))
   }
 }
