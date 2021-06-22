@@ -18,9 +18,7 @@ object Main {
   var ruta: Ruta = null
   var contenedor: List[Contenedor] = List.empty[Contenedor]
 
-  def main(args: Array[String]): Unit = {
-    empezarPlan()
-  }
+  def main(args: Array[String]): Unit = empezarPlan()
 
   /**
    * Método que da comienzo a la ejecución de prueba.
@@ -68,6 +66,11 @@ object Main {
    */
   def crearRuta(puertos: List[Puerto]): Ruta = Ruta(puertos, puertos.head, puertos(1))
 
+  /**
+   * Crea una empresa e inicia la navegación del barco
+   *
+   * @return
+   */
   def crearEmpresa() = {
     Http().singleRequest(HttpRequest(uri = "https://jsonplaceholder.typicode.com/todos"))
       .transformWith {
@@ -80,6 +83,8 @@ object Main {
             val empresa = Empresa(Json.parse(d)(0).apply("title").toString(), number)
             val barco = crearBarco(contenedor, empresa, ruta)
             barco.navegar()
+            barco.navegar()
+            barco.ruta.obtenerSituacion()
           }
         case Failure(e) =>
           println(e)

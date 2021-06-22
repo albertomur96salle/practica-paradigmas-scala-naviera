@@ -2,12 +2,13 @@ package empresasnavieras.transporte
 
 import empresasnavieras.empresa.Empresa
 import empresasnavieras.ruta.Ruta
+import empresasnavieras.transporte.interfaces.Embarcacion
 
 /**
  * Representa a un barco junto con contenedores de productos
  * Los buques pertenecen a una determinada empresa y siguen solo 1 ruta
  */
-class Buque {
+class Buque extends Embarcacion {
   var _contenedores: Map[Int, Contenedor] = Map()
   var empresa: Empresa = null
   var ruta: Ruta = null

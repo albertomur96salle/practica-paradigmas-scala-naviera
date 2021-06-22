@@ -58,7 +58,7 @@ class Contenedor(val _id:Int) {
    */
   def hacerRecuento(): Int = {
     var recuento = 0
-    for ((_,cantidad) <- _productos) recuento+=cantidad
+    _productos.foreach(producto => recuento+=producto._2)
     recuento
   }
 }

@@ -17,12 +17,27 @@ class Ruta(val _puertos:List[Puerto], var _puertoActual:Puerto, var _puertoSigui
    * Actualiza tanto el puerto actual como el siguiente
    */
   def realizarAtraco(): Unit = {
-    val atraco = Atraco(_puertoSiguiente, Calendar.getInstance().getTime)
-    _atracos = _atracos :+ atraco
-    _puertoActual = _puertoSiguiente
-    val indicePuertoActual = _puertos.indexOf(_puertoActual)
-    _puertoSiguiente = _puertos(indicePuertoActual+1)
-    println(_puertoActual)
+    try {
+      _atracos = _atracos :+ Atraco(_puertoSiguiente, Calendar.getInstance().getTime)
+      obtenerSituacion()
+      _puertoActual = _puertoSiguiente
+      _puertoSiguiente = _puertos(_puertos.indexOf(_puertoSiguiente) + 1)
+    } catch {
+      case _: IndexOutOfBoundsException => _puertoSiguiente = null
+    }
+  }
+
+  /**
+   * Permite dar a conocer la situación del barco en cuanto a qué puertos ha recorrido,
+   * el puerto actual y los puertos que faltan por recorrer
+   */
+  def obtenerSituacion(): Unit = {
+    val (recorridos, pendientes) = _puertos.splitAt(_puertos.indexOf(_puertoActual) + 1)
+    println(s"Se han recorrido los siguientes puertos: ${recorridos.mkString(", ")}")
+    println(s"El puerto actual es: ${_puertoActual}")
+    println(s"El puerto siguiente es: ${_puertoSiguiente}")
+    println(s"Faltan por recorrer los siguientes puertos: ${pendientes.mkString(", ")}")
+    println("")
   }
 }
 
