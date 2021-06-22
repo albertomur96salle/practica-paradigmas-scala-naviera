@@ -22,6 +22,13 @@ object Main {
     empezarPlan()
   }
 
+  /**
+   * Método que da comienzo a la ejecución de prueba.
+   * 1º: Empieza solicitando información a la API jsonplaceholder para la creación de puertos
+   * 2º: Se crea la ruta que seguirá el barco
+   * 3º: Se crean los contenedores (1 o más) que se cargarán en el barco
+   * 4º: Se crea la empresa y se inicia la navegación
+   */
   def empezarPlan(): Unit = {
     Http().singleRequest(HttpRequest(uri = "https://jsonplaceholder.typicode.com/users"))
       .transformWith {
@@ -40,6 +47,12 @@ object Main {
       }
   }
 
+  /**
+   * Método encargado de crear puertos para la posterior creación de una ruta
+   *
+   * @param data Información empleada para la creación de los puertos
+   * @return Listado de puertos que formarán parte de una ruta
+   */
   def crearPuertos(data: JsValue): List[Puerto] = {
     val puerto1 = Puerto("P1", data(0).apply("address").apply("city").toString())
     val puerto2 = Puerto("P2", data(1).apply("address").apply("city").toString())
@@ -47,6 +60,12 @@ object Main {
     List(puerto1, puerto2, puerto3)
   }
 
+  /**
+   * Devuelve una ruta que contiene toda una serie de puertos
+   *
+   * @param puertos Puertos que se añadirán a la ruta
+   * @return Ruta con los puertos solicitados
+   */
   def crearRuta(puertos: List[Puerto]): Ruta = Ruta(puertos, puertos.head, puertos(1))
 
   def crearEmpresa() = {
@@ -68,6 +87,11 @@ object Main {
       }
   }
 
+  /**
+   * Método utilizado para crear uno o más contenedores de prueba
+   *
+   * @return Lista que contiene uno o más contenedores
+   */
   def crearContenedores(): List[Contenedor] = {
     val contenedor = Contenedor()
     val nombreProducto = faker.Lorem.words(2).mkString("")
@@ -77,6 +101,14 @@ object Main {
     List(contenedor)
   }
 
+  /**
+   * Método encargado de crear un barco de pruebas dada una lista de contenedores, una empresa y una ruta
+   *
+   * @param contenedores Contenedores que serán añadidos al barco
+   * @param empresa Entidad dueña del barco
+   * @param ruta Ruta seguida por el barco
+   * @return Barco creado según los parámetros anteriores
+   */
   def crearBarco(contenedores: List[Contenedor], empresa: Empresa, ruta: Ruta): Buque = {
     val barco: Buque = Buque(empresa, ruta)
 

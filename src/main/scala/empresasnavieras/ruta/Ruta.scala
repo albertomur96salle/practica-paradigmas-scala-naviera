@@ -5,9 +5,9 @@ import java.util.Calendar
 /**
  * Contiene el listado de puertos que forman parte de una determinada ruta
  *
- * @param puertos
- * @param puertoActual
- * @param puertoSiguiente
+ * @param puertos Listado de puertos que forman parte de la ruta
+ * @param puertoActual Puerto actual en el que un barco se encuentra
+ * @param puertoSiguiente Puerto siguiente en la ruta del barco
  */
 class Ruta(val _puertos:List[Puerto], var _puertoActual:Puerto, var _puertoSiguiente:Puerto) {
   private var _atracos: List[Atraco] = List.empty[Atraco]
@@ -26,7 +26,18 @@ class Ruta(val _puertos:List[Puerto], var _puertoActual:Puerto, var _puertoSigui
   }
 }
 
+/**
+ * Companion object utilizado para la generación de rutas
+ */
 object Ruta {
+  /**
+   * Crea una ruta
+   *
+   * @param _puertos Listado de puertos que forman parte de una determinada ruta
+   * @param _puertoActual Puerto actual en el que un barco se encuentra
+   * @param _puertoSiguiente Puerto siguiente en la ruta del barco
+   * @return
+   */
   def apply(_puertos:List[Puerto], _puertoActual:Puerto, _puertoSiguiente:Puerto): Ruta = {
     new Ruta(_puertos, _puertoActual, _puertoSiguiente)
   }

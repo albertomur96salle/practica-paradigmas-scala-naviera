@@ -22,14 +22,14 @@ class Buque {
   /**
    * Retira un contenedor concreto del buque
    *
-   * @param id
+   * @param id Identificador numérico que representa al contenedor que se va a retirar del barco
    */
   def sacarContenedor(id: Int) = _contenedores -= (id)
 
   /**
    * Obtiene la información de un determinado contenedor
    *
-   * @param id
+   * @param id Identificador del contenedor cuya información se quiere obtener
    * @return Devuelve un opcional, ya que el contenedor puede no existir para el id introducido
    */
   def obtenerContenedor(id: Int) = Option(_contenedores.apply(id))
@@ -42,7 +42,7 @@ class Buque {
   /**
    * Hace un recuento de la cantidad de productos que hay en todos los contenedores
    *
-   * @return
+   * @return Recuento total de productos en el barco
    */
   def contar() = {
     val sumar = (x:Int, y:Int) => x + y
@@ -59,8 +59,8 @@ object Buque {
   /**
    * Crea un barco
    *
-   * @param _empresa
-   * @param _ruta
+   * @param _empresa Representa a la entidad dueña del barco
+   * @param _ruta Define la ruta seguida por el barco
    * @return Devuelve un barco perteneciente a la empresa "_empresa" y que sigue la ruta "_ruta"
    */
   def apply(_empresa:Empresa, _ruta:Ruta): Buque = {
