@@ -18,8 +18,8 @@ class Ruta(val _puertos:List[Puerto], var _puertoActual:Puerto, var _puertoSigui
    */
   def realizarAtraco(): Unit = {
     try {
-      _atracos = _atracos :+ Atraco(_puertoSiguiente, Calendar.getInstance().getTime)
       obtenerSituacion()
+      _atracos = _atracos :+ Atraco(_puertoSiguiente, Calendar.getInstance().getTime)
       _puertoActual = _puertoSiguiente
       _puertoSiguiente = _puertos(_puertos.indexOf(_puertoSiguiente) + 1)
     } catch {
@@ -33,7 +33,7 @@ class Ruta(val _puertos:List[Puerto], var _puertoActual:Puerto, var _puertoSigui
    */
   def obtenerSituacion(): Unit = {
     val (recorridos, pendientes) = _puertos.splitAt(_puertos.indexOf(_puertoActual) + 1)
-    println(s"Se han recorrido los siguientes puertos: ${recorridos.mkString(", ")}")
+    println(s"Se han recorrido los siguientes puertos: ${_atracos.mkString(", ")}")
     println(s"El puerto actual es: ${_puertoActual}")
     println(s"El puerto siguiente es: ${_puertoSiguiente}")
     println(s"Faltan por recorrer los siguientes puertos: ${pendientes.mkString(", ")}")
