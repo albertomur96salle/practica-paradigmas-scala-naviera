@@ -35,7 +35,7 @@ class Contenedor(val _id:Int) {
    * @param producto Tupla que representa el producto (nombre) que se quiere retirar y la cantidad
    * @return Devuelve la cantidad de unidades restantes del producto retirado
    */
-  def sacarProducto(producto: (String, Int)): Option[Int] = {
+  def sacarProducto(producto: (String, Int)): Int = {
     if (_productos.contains(producto._1)) {
       _productos = _productos.+(producto._1 -> (_productos.apply(producto._1) - producto._2))
 
@@ -51,7 +51,10 @@ class Contenedor(val _id:Int) {
      * de intentar devolver la cantidad, y devolver la cantidad restante (o no) en función del resultado de
      * dicha comprobación
      */
-    Option(_productos.apply(producto._1))
+    _productos.get(producto._1) match {
+      case Some(cantidad) => cantidad
+      case None => 0
+    }
   }
 
   /**
@@ -60,7 +63,7 @@ class Contenedor(val _id:Int) {
    * @param producto Producto cuya cantidad en el contenedor se quiere comprobar
    * @return Devuelve un opcional, ya que el contenedor puede no tener guardado el producto solicitado
    */
-  def comprobarCantidad(producto: String): Option[Int] = {
+  def comprobarCantidad(producto: String): Int = {
     /**
      * Uso de opcionales para recuperar la cantidad de un producto.
      * Como no se sabe a priori si el producto existe (o no) en el contenedor, es necesario tener en cuenta
@@ -69,7 +72,10 @@ class Contenedor(val _id:Int) {
      * de intentar devolver la cantidad, y devolver la cantidad restante (o no) en función del resultado de
      * dicha comprobación
      */
-    Option(_productos.apply(producto))
+      _productos.get(producto) match {
+        case Some(cantidad) => cantidad
+        case None => 0
+      }
   }
 
   /**
@@ -91,9 +97,14 @@ object Contenedor {
   /**
    * Crea un contenedor con un identificador numérico aleatorio
    *
-   * @return
+   * @return Devuelve un contenedor creado de forma aleatoria
+   *         En este caso, se ha hecho uso del companion object para seguir el patrón object mother, patrón
+   *         usado para la generación aleatoria de objetos.
+   *         En caso de querer crear un objeto más personalizado, el constructor de la clase está disponible
    */
   def apply(): Contenedor = {
-    new Contenedor(Random.between(1, 999999))
+    val contenedor = new Contenedor(Random.between(1, 999999))
+    for(_ <- 1 to Random.between(2, 5)) contenedor.guardarProducto(faker.Lorem.words(2).mkString(""), Random.between(1, 20))
+    contenedor
   }
 }

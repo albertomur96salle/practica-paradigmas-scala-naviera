@@ -19,9 +19,11 @@ class Ruta(val _puertos:List[Puerto], var _puertoActual:Puerto, var _puertoSigui
   def realizarAtraco(): Unit = {
     try {
       obtenerSituacion()
-      _atracos = _atracos :+ Atraco(_puertoSiguiente, Calendar.getInstance().getTime)
-      _puertoActual = _puertoSiguiente
-      _puertoSiguiente = _puertos(_puertos.indexOf(_puertoSiguiente) + 1)
+      if (_puertoSiguiente != null) {
+        _atracos = _atracos :+ Atraco(_puertoSiguiente, Calendar.getInstance().getTime)
+        _puertoActual = _puertoSiguiente
+        _puertoSiguiente = _puertos(_puertos.indexOf(_puertoSiguiente) + 1)
+      }
     } catch {
       /**
        * Uso de pattern matching, en este caso con excepciones, para evitar accesos no controlados
@@ -47,7 +49,7 @@ class Ruta(val _puertos:List[Puerto], var _puertoActual:Puerto, var _puertoSigui
     println(s"El puerto actual es: ${_puertoActual}")
     println(s"El puerto siguiente es: ${_puertoSiguiente}")
     println(s"Faltan por recorrer los siguientes puertos: ${pendientes.mkString(", ")}")
-    println("")
+    println("\n")
   }
 }
 
@@ -64,6 +66,8 @@ object Ruta {
    * @return
    */
   def apply(_puertos:List[Puerto], _puertoActual:Puerto, _puertoSiguiente:Puerto): Ruta = {
-    new Ruta(_puertos, _puertoActual, _puertoSiguiente)
+    val ruta = new Ruta(_puertos, _puertoActual, _puertoSiguiente)
+    ruta._atracos = ruta._atracos :+ Atraco(_puertoActual, Calendar.getInstance().getTime)
+    ruta
   }
 }

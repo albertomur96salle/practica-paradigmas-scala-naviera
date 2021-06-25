@@ -10,13 +10,13 @@ import empresasnavieras.transporte.interfaces.Embarcacion
  */
 class Buque extends Embarcacion {
   var _contenedores: Map[Int, Contenedor] = Map()
-  var empresa: Empresa = null
-  var ruta: Ruta = null
+  var empresa: Empresa = _
+  var ruta: Ruta = _
 
   /**
    * Añade un contenedor a la bodega de carga del buque
    *
-   * @param contenedor
+   * @param contenedor Contenedor que será guardado en el barco
    */
   def guardarContenedor(contenedor: Contenedor): Unit = _contenedores += (contenedor._id -> contenedor)
 
@@ -25,7 +25,7 @@ class Buque extends Embarcacion {
    *
    * @param id Identificador numérico que representa al contenedor que se va a retirar del barco
    */
-  def sacarContenedor(id: Int) = _contenedores -= (id)
+  def sacarContenedor(id: Int): Unit = _contenedores -= id
 
   /**
    * Obtiene la información de un determinado contenedor
@@ -33,19 +33,19 @@ class Buque extends Embarcacion {
    * @param id Identificador del contenedor cuya información se quiere obtener
    * @return Devuelve un opcional, ya que el contenedor puede no existir para el id introducido
    */
-  def obtenerContenedor(id: Int) = Option(_contenedores.apply(id))
+  def obtenerContenedor(id: Int): Option[Contenedor] = _contenedores.get(id)
 
   /**
    * Hace que el barco avance 1 puerto en su ruta actual
    */
-  def navegar() = ruta.realizarAtraco()
+  def navegar(): Unit = ruta.realizarAtraco()
 
   /**
    * Hace un recuento de la cantidad de productos que hay en todos los contenedores
    *
    * @return Recuento total de productos en el barco
    */
-  def contar() = {
+  def contar(): Int = {
     val sumar = (x:Int, y:Int) => x + y
 
     /**
