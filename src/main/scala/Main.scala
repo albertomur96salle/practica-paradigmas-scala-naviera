@@ -28,6 +28,11 @@ object Main {
    * 4º: Se crea la empresa y se inicia la navegación
    */
   def empezarPlan(): Unit = {
+    /**
+     * Uso de akka para recuperar información de la página jsonplaceholder.
+     * La información recuperada es de usuarios debido a que en el json devuelto hay nombres de ciudades
+     * que son útiles a la hora de realizar la creación de puertos
+     */
     Http().singleRequest(HttpRequest(uri = "https://jsonplaceholder.typicode.com/users"))
       .transformWith {
         case Success(res) =>
@@ -72,6 +77,10 @@ object Main {
    * @return
    */
   def crearEmpresa() = {
+    /**
+     * Uso de akka para recuperar información de la página jsonplaceholder.
+     * La información recuperada es de utilidad para la creación de empresas con nombres cualesquiera
+     */
     Http().singleRequest(HttpRequest(uri = "https://jsonplaceholder.typicode.com/todos"))
       .transformWith {
         case Success(res) =>
@@ -103,6 +112,13 @@ object Main {
     val cantidadProducto = Random.between(1, 20)
 
     contenedor.guardarProducto((nombreProducto, cantidadProducto))
+
+    /**
+     * Se devuelve como resultado una lista de contenedores para que sea más simple la posterior creación
+     * de un barco sin que sea necesario llamar a crearContenedores múltiples veces.
+     * De esta manera, solo haría falta modificar el código de crearContenedores para que se añadan más
+     * contenedores a la lista devuelta
+     */
     List(contenedor)
   }
 
@@ -117,6 +133,11 @@ object Main {
   def crearBarco(contenedores: List[Contenedor], empresa: Empresa, ruta: Ruta): Buque = {
     val barco: Buque = Buque(empresa, ruta)
 
+    /**
+     * Uso de función de alto nivel para almacenar en el barco de carga todos los contenedores creados.
+     * La alternativa habría sido un bucle for, aunque este habría ocupado más espacio para acabar
+     * realizando la misma función
+     */
     contenedores.map(contenedor => barco.guardarContenedor(contenedor))
     barco
   }

@@ -23,6 +23,11 @@ class Ruta(val _puertos:List[Puerto], var _puertoActual:Puerto, var _puertoSigui
       _puertoActual = _puertoSiguiente
       _puertoSiguiente = _puertos(_puertos.indexOf(_puertoSiguiente) + 1)
     } catch {
+      /**
+       * Uso de pattern matching, en este caso con excepciones, para evitar accesos no controlados
+       * a la estructura de almacenamiento de los puertos.
+       * Esto se hace para evitar que un barco pueda atracar en puertos que "no existen"
+       */
       case _: IndexOutOfBoundsException => _puertoSiguiente = null
     }
   }
@@ -32,6 +37,11 @@ class Ruta(val _puertos:List[Puerto], var _puertoActual:Puerto, var _puertoSigui
    * el puerto actual y los puertos que faltan por recorrer
    */
   def obtenerSituacion(): Unit = {
+    /**
+     * Se divide la lista para presentar la información de la situación actual de la ruta.
+     * La alternativa habría sido almacenar los puertos recorridos y los pendientes por recorrer
+     * en estructuras distintas, pero se creyó más conveniente dejarlo en una sola lista
+     */
     val (recorridos, pendientes) = _puertos.splitAt(_puertos.indexOf(_puertoActual) + 1)
     println(s"Se han recorrido los siguientes puertos: ${_atracos.mkString(", ")}")
     println(s"El puerto actual es: ${_puertoActual}")

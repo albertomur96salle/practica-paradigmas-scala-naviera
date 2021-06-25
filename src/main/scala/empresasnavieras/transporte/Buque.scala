@@ -48,6 +48,12 @@ class Buque extends Embarcacion {
   def contar() = {
     val sumar = (x:Int, y:Int) => x + y
 
+    /**
+     * Uso de funciones de alto nivel para el recuento de productos.
+     * Se sopesó realizar esta operación con el clásico bucle for, sin embargo, de esta manera
+     * el código no solo queda más limpio, sino que además hay menos líneas y por lo tanto menos
+     * margen de error
+     */
     val recuentoContenedores = _contenedores.map(contenedor => contenedor._2.hacerRecuento())
     recuentoContenedores.reduce((acc,x) => sumar(acc,x))
   }

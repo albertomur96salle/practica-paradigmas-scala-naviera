@@ -18,6 +18,11 @@ class Contenedor(val _id:Int) {
    * @return
    */
   def guardarProducto(producto :(String, Int)): Unit = {
+    /**
+     * Uso de pattern matching para diferenciar si un contenedor lleva en su interior el producto
+     * solicitado o no.
+     * Cumple la misma función que un if y además requiere menos líneas de código
+     */
     _productos.contains(producto._1) match {
       case false => _productos = _productos.+(producto._1 -> producto._2)
       case true => _productos = _productos.+(producto._1 -> (_productos.apply(producto._1) + producto._2))
@@ -38,6 +43,14 @@ class Contenedor(val _id:Int) {
         _productos = _productos.-(producto._1)
       }
     }
+
+    /**
+     * Uso de opcionales debido a que un producto puede no existir más después de haber intentado
+     * sacar una determinada cantidad.
+     * La alternativa a este uso habría sido comprobar con un if si el producto todavía existe antes
+     * de intentar devolver la cantidad, y devolver la cantidad restante (o no) en función del resultado de
+     * dicha comprobación
+     */
     Option(_productos.apply(producto._1))
   }
 
@@ -48,6 +61,14 @@ class Contenedor(val _id:Int) {
    * @return Devuelve un opcional, ya que el contenedor puede no tener guardado el producto solicitado
    */
   def comprobarCantidad(producto: String): Option[Int] = {
+    /**
+     * Uso de opcionales para recuperar la cantidad de un producto.
+     * Como no se sabe a priori si el producto existe (o no) en el contenedor, es necesario tener en cuenta
+     * dicha condición.
+     * La alternativa a este uso habría sido comprobar con un if si el producto todavía existe antes
+     * de intentar devolver la cantidad, y devolver la cantidad restante (o no) en función del resultado de
+     * dicha comprobación
+     */
     Option(_productos.apply(producto))
   }
 
