@@ -109,8 +109,9 @@ object Main {
             println(s"Contenedor ${contenedor.get._id} retirado del barco")
             val contenedor2 = barco.obtenerContenedor(contenedor.get._id)
             if (contenedor2.isEmpty) println(s"El contenedor ${contenedor.get._id} no existe dentro del barco")
-//            barco.navegar()
-//            barco.navegar()
+            println("")
+            barco.navegar()
+            barco.navegar()
           }
         case Failure(e) =>
           println(e)
