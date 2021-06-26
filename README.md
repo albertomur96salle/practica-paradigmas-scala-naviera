@@ -17,9 +17,8 @@ Los pertinentes comentarios acerca del código están en cada una de las clases 
 Al abrir el proyecto con IntelliJ, si el IDE muestra un cuadro diciendo que ha encontrado 2 configuraciones, hacer click
 en la casilla "proyecto sbt" y después en OK (en función del idioma del ordenador, el texto del cuadro puede variar).
 
-IntelliJ le asigna Java 14 o incluso 15 al proyecto automáticamente cuando termina de importarlo. Sin embargo, con la
-versión 1.8 funciona sin problemas. En caso de no tener ninguna versión de Java instalada en el equipo, IntelliJ se
-puede configurar para que descargue una versión determinada dentro de los ajustes del proyecto.
+Es recomendable comprobar que, en los ajustes del proyecto, aparezca seleccionado Java 1.8. Sin embargo, el código ha
+sido probado con versiones posteriores de Java y funciona correctamente.
 
 ## Ejecución
 
