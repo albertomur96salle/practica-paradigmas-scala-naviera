@@ -1,0 +1,5 @@
+URL del repositorio: https://github.com/albertomur96salle/practica-paradigmas-scala-naviera
+Dueño del repositorio: alberto.mur@students.salle.url.edu
+
+La aplicación fue desarrollada mediante pair-programming, por eso la mayoría de commits fueron realizados por la misma
+persona.
